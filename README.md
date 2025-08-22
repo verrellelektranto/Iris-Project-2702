@@ -1,2 +1,2 @@
-# Iris-Project-2702
+# Iris-Project
 Iris Classification with streamlit
