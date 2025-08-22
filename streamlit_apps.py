@@ -9,7 +9,7 @@ from sklearn.model_selection import train_test_split
 st.title("Iris Classifier")
 st.write("This is a simple Iris Classifier app")
 
-# Try these paths (current folder first, then Downloads)
+# Paths 
 MODEL_PATHS = [Path("model.joblib"), Path.home() / "Downloads" / "model.joblib"]
 
 def load_or_train_model():
@@ -22,7 +22,7 @@ def load_or_train_model():
             except Exception as e:
                 st.error(f"Failed to load model from {p}: {e}")
                 break
-    # Fallback: train small model and save to local model.joblib
+    # Fallback to train small model and save to local model.joblib
     iris = load_iris()
     X_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target, test_size=0.2, random_state=42)
     model = RandomForestClassifier(random_state=42)
@@ -38,7 +38,7 @@ def get_prediction(data: pd.DataFrame):
     pred_proba = model.predict_proba(data)
     return pred, pred_proba
 
-# -- UI inputs
+# UI inputs
 left, right = st.columns(2, gap="medium", border=True)
 left.subheader("Sepal")
 sepal_length = left.slider("Sepal Length", min_value=1.0, max_value=10.0, value=5.4, step=0.1)
@@ -48,6 +48,7 @@ right.subheader("Petal")
 petal_length = right.slider("Petal Length", min_value=1.0, max_value=10.0, value=1.3, step=0.1)
 petal_width = right.slider("Petal Width", min_value=0.1, max_value=10.0, value=0.2, step=0.1)
 
+# Create DataFrame for prediction
 data = pd.DataFrame({
     "sepal length (cm)": [sepal_length],
     "sepal width (cm)" : [sepal_width],
@@ -56,6 +57,7 @@ data = pd.DataFrame({
 })
 st.dataframe(data, use_container_width=True)
 
+# Prediction
 if st.button("Predict", use_container_width=True):
     pred, pred_proba = get_prediction(data)
     label_map = {0: "Setosa", 1: "Versicolor", 2: "Virginica"}
